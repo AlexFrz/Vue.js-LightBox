@@ -1,20 +1,30 @@
+<style src="./lightbox.scss"></style>
+
 <template>
-  <div>{{ url }}</div>
+  <div class="lightbox" v-if="image">
+    <lightbox-image :image="image"></lightbox-image>
+  </div>
 </template>
 
 <script>
 import "./LighboxDirectives";
+import LightboxImage from "./LightboxImage";
 import store from "./LightboxStore";
 
 export default {
+  components: {
+    LightboxImage
+  },
   data() {
     return {
       state: store.state
     };
   },
   computed: {
-    url() {
-      return this.state.image;
+    image() {
+      if (this.state.index !== false) {
+        return this.state.images[this.state.index];
+      }
     }
   }
 };

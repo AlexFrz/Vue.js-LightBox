@@ -11,7 +11,7 @@ class LightboxStore {
   }
 
   open(index) {
-    this.state.index = index;
+    return (this.state.index = index);
   }
 }
 export default new LightboxStore();
