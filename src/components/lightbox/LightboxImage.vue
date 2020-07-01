@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <div v-if="loading">Chargement...</div>
-    <img :src="src" class="lightbox__image" :style="style" />
+  <div @click.stop>
+    <div v-if="loading" class="lightbox__loading"></div>
+    <transition name="lightbox-fade">
+      <img :src="src" class="lightbox__image" :style="style" :key="src" />
+    </transition>
   </div>
 </template>
 
@@ -17,12 +19,8 @@ export default {
       style: []
     };
   },
-  mounted() {
-    let image = new window.Image();
-    resizeImage = image => {};
-    image.onload = _ => {
-      this.loading = false;
-      this.src = this.image;
+  methods: {
+    resizeImage(image) {
       let width = image.width;
       let height = image.height;
       if (width > window.innerWidth || height > window.innerHeight) {
@@ -42,8 +40,24 @@ export default {
         top: (window.innerHeight - height) * 0.5 + "px",
         left: (window.innerWidth - height) * 0.5 + "px"
       };
+    }
+  },
+  mounted() {
+    let image = new window.Image();
+
+    image.onload = _ => {
+      this.loading = false;
+      this.src = this.image;
+      this.resizeImage(image);
     };
     image.src = this.image;
+    (this.resizeEvent = () => {
+      this.resizeImage(image);
+    }),
+      window.addEventListener("resize", this.resizeEvent);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.resizeEvent);
   }
 };
 </script>

@@ -7,11 +7,15 @@ class LightboxStore {
   }
 
   addImage(url) {
-    return this.state.images.push(url);
+    return this.state.images.push(url) - 1;
   }
 
   open(index) {
     return (this.state.index = index);
+  }
+
+  close() {
+    this.state.index = false;
   }
 }
 export default new LightboxStore();
