@@ -5,7 +5,7 @@
       v-lightbox
       v-for="n in 9"
     >
-      <img :src="'https://picsum.photos/id/11' + n + '/300/300'" />
+      <img :src="'https://picsum.photos/id/11' + n + '/400/400'" />
     </a>
     <lightbox></lightbox>
   </div>
